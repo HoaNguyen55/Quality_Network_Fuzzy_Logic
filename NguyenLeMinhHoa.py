@@ -49,7 +49,7 @@ def quality_network():
     # Chất lượng của hệ thống mạng
     quality_rate = {"Tốt"           : [7, 8, 10, 10],
                     "Bình Thường"   : [5, 6, 7, 8],
-                    "Tệ"            : [3, 4, 5, 6],
+                    "Tệ"            : [2, 3, 5, 6],
                     "Quá Yếu"       : [0, 0, 3, 4]}
     key_lst_quality = list(quality_rate.keys())
     val_lst_quality = list(quality_rate.values())

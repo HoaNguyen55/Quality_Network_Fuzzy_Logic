@@ -1,10 +1,16 @@
-import NguyenLeMinhHoa as main_module
+from NguyenLeMinhHoa import quality_network as main
+m = main()
 # Test app:
 import random
 in_mes_delay_v = []
 in_spd_network_v = []
-in_spam_mail_val = random.sample(range(0, 10001), 1000)
-for i in range(len(in_spam_mail_val)):
+in_spam_mail_v = []
+
+num_of_test = int(input('Nhập số lượng test case: '))
+
+for i in range(0, num_of_test+1):
+    in_spam_mail_val = round(random.uniform(0, 10001))
+    in_spam_mail_v.append(in_spam_mail_val)
     in_mes_delay_val = round(random.uniform(0, 100))
     in_mes_delay_v.append(in_mes_delay_val)
     in_spd_network_val = round(random.uniform(1, 100))
@@ -21,23 +27,21 @@ good_state = 0
 bad_state = 0
 normal_state = 0
 too_bad_state = 0
-for i in range(len(in_spam_mail_val)):
+mes_show = 'Không biết'
+for i in range(0, num_of_test+1):
 
-    in_spam_mail = in_spam_mail_val[i]
+    in_spam_mail = in_spam_mail_v[i]
     in_mes_delay = in_mes_delay_v[i]
     in_spd_network = in_spd_network_v[i]
 
-    main_module.model.input["Số lượng thư rác"]                 = in_spam_mail
-    main_module.model.input["Tỉ lệ gói tin bị gián đoạn"]       = in_mes_delay
-    main_module.model.input["Tốc độ đường truyền tối thiểu"]    = in_spd_network
-    a = '| {:<15} | {:<15}   | {:<15}      |' .format(in_spam_mail, in_mes_delay, in_spd_network)
+    m.input["Số lượng thư rác"]                 = in_spam_mail
+    m.input["Tỉ lệ gói tin bị gián đoạn"]       = in_mes_delay
+    m.input["Tốc độ đường truyền tối thiểu"]    = in_spd_network
+    a = f'| {in_spam_mail:<15} | {in_mes_delay:<15}   | {in_spd_network:<15}      |'
     my_test.writelines(a)
-    main_module.model.compute()
-    out_result = main_module.model.output["Chất lượng của hệ thống mạng"]
-    # quality_rate = {"Tốt": [8, 9, 10, 11],
-    #                 "Bình Thường": [5, 6, 7, 8],
-    #                 "Tệ": [2, 4, 5],
-    #                 "Quá Yếu": [0, 1, 2]}
+    m.compute()
+    out_result = m.output["Chất lượng của hệ thống mạng"]
+
     if 10 >= out_result >= 8:
         mes_show = ' ==> Good'
         good_state += 1
@@ -57,5 +61,10 @@ for i in range(len(in_spam_mail_val)):
     my_test.writelines('|-----------------|-------------------|----------------------|----------------------|')
     my_test.writelines('\n')
 
-my_test.writelines('Tổng kết: Good có: %d, Normal có %d, Bad có %d, Too Bad có %d' %(good_state, normal_state, bad_state, too_bad_state))
+my_test.writelines('\nTổng kết:\n'
+                   '\t- Số lượng testcases: %d\n'
+                   '\t- Good có: %d\n'
+                   '\t- Normal có %d\n'
+                   '\t- Bad có %d\n'
+                   '\t- Too Bad có %d' % (num_of_test, good_state, normal_state, bad_state, too_bad_state))
 my_test.close()
